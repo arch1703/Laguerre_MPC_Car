@@ -1,0 +1,30 @@
+function [model,holder,options] = create_nonlinear_mpc(p)
+model = nlmpc(4,4,2);
+model.Ts = p.T;
+model.PredictionHorizon = p.Np;
+model.ControlHorizon = p.Nc;
+model.Model.IsContinuousTime = false;
+model.Model.StateFcn = @(x,u) bicycle_step(x,u,p);
+model.Model.OutputFcn = @(x,u) x;
+model.Weights.OutputVariables = zeros(1,4);
+model.Weights.ManipulatedVariables = zeros(1,2);
+model.Weights.ManipulatedVariablesRate = zeros(1,2);
+model.MV(1).Min = -p.delta_max;
+model.MV(1).Max = p.delta_max;
+model.MV(1).RateMin = -p.delta_rate_max*p.T;
+model.MV(1).RateMax = p.delta_rate_max*p.T;
+model.MV(2).Min = p.a_min;
+model.MV(2).Max = p.a_max;
+model.MV(2).RateMin = -p.jerk_max*p.T;
+model.MV(2).RateMax = p.jerk_max*p.T;
+model.States(4).Min = p.v_min;
+model.States(4).Max = p.v_max;
+holder = RefHolder();
+holder.ref = zeros(p.Np,4);
+holder.previous = zeros(2,1);
+model.Optimization.CustomCostFcn = @(X,U,e,data) tracking_cost(X,U,holder,p)+1e6*e^2;
+model.Optimization.CustomIneqConFcn = @(X,U,e,data) nonlinear_safety_constraints(X,holder,p);
+model.Optimization.SolverOptions = optimoptions('fmincon','Algorithm','sqp', ...
+    'Display','off','MaxIterations',100,'ConstraintTolerance',p.solver_tolerance);
+options = nlmpcmoveopt;
+end

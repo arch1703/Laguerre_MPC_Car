@@ -1,0 +1,903 @@
+{
+  "schema_version": 1,
+  "created_at": "28-Oct-2026 07:25:26",
+  "controller": "ltv",
+  "scenario": "boundary_crossing",
+  "seed": 41,
+  "parameters": {
+    "m": 1.5,
+    "L": 0.25,
+    "car_front": 0.29,
+    "car_rear": 0.06,
+    "car_half_width": 0.075,
+    "body_offset": 0.11499999999999999,
+    "body_radius": 0.19039432764659769,
+    "delta_max": 0.38397243543875248,
+    "a_max": 6.67,
+    "a_min": -4,
+    "v_max": 3,
+    "v_min": 0,
+    "delta_rate_max": 2.0943951023931953,
+    "jerk_max": 12,
+    "clearance": 0.05,
+    "road_half_width": 0.85,
+    "lateral_accel_max": 1.8,
+    "T": 0.05,
+    "Np": 12,
+    "Nc": 6,
+    "v_tgt": 0.8,
+    "Q_": [
+      30,
+      30,
+      2,
+      4
+    ],
+    "R_": [
+      0.3,
+      0.05
+    ],
+    "laguerre_alpha": 0.7,
+    "laguerre_order": 4,
+    "detour_offset": 0.52,
+    "detour_length": 1.8,
+    "obstacle_radius": 0.12,
+    "obstacle_count": 3,
+    "solver_tolerance": 1E-6,
+    "safety_substeps": 10,
+    "linearization_guard": true,
+    "linearization_position_tolerance": 0.015,
+    "linearization_heading_tolerance": 0.03,
+    "linearization_steering_trust": 0.12,
+    "linearization_acceleration_trust": 1,
+    "linearization_iterations": 6,
+    "qp_max_iterations": 100,
+    "track_a": 2,
+    "track_b": 1.5,
+    "N_wp": 400
+  },
+  "metrics": {
+    "duration": 40,
+    "track_cte_mean": 0.014817775833805105,
+    "track_cte_rms": 0.057857741085623922,
+    "track_cte_max": 0.31006011687455254,
+    "path_error_rms": 0.024636840202536505,
+    "speed_rmse": 0.10027465187643333,
+    "mean_speed": 0.65171658873271243,
+    "min_clearance": 0.118655828556152,
+    "min_rectangle_clearance": 0.23193929815127878,
+    "min_road_clearance": 0.34554002233595515,
+    "collision_samples": 0,
+    "confirmed_contact_steps": 0,
+    "fallback_steps": 0,
+    "solver_failures": 0,
+    "prediction_rejections": 0,
+    "solve_time_median": 0.00437315,
+    "solve_time_p95": 0.00656595,
+    "solve_time_p99": 0.010478649999999999,
+    "missed_deadlines": 0,
+    "step_time_p95": 0.03274635,
+    "step_time_p99": 0.03731225,
+    "missed_step_deadlines": 0,
+    "steering_rate_rms": 0.26416895652808048,
+    "jerk_rms": 2.6764174970866663,
+    "path_length": 26.068663549308496,
+    "laps": 1.0307392518774536,
+    "success": true,
+    "termination": "completed",
+    "yielding_steps": 143,
+    "resume_events": 2,
+    "required_laps": 0.44245692060060371,
+    "progress_sufficient": true,
+    "safety_pass": true,
+    "road_departure_steps": 0,
+    "max_stopped_duration": 6.4499999999999851,
+    "online_time_p99": 0.02926465,
+    "missed_online_deadlines": 0,
+    "deadline_interventions": 0,
+    "replans": 269,
+    "sensor_time_p99": 0.0058924,
+    "planning_time_p99": 0.0028039500000000004,
+    "validation_time_p99": 0.0142173,
+    "physics_monitor_time_p99": 0.00823975
+  },
+  "matlab_version": "24.1.0.2689473 (R2024a) Update 6",
+  "toolboxes": [
+    {
+      "Name": "5G Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "AUTOSAR Blockset",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Aerospace Blockset",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Aerospace Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Antenna Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "23-Jan-2024"
+    },
+    {
+      "Name": "Audio Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Automated Driving Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Bioinformatics Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Bluetooth Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "C2000 Microcontroller Blockset",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Communications Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Computer Vision Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Control System Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Curve Fitting Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "DDS Blockset",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "DSP HDL Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "DSP System Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Data Acquisition Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Database Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Datafeed Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Deep Learning HDL Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "12-Jan-2024"
+    },
+    {
+      "Name": "Deep Learning Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "28-Dec-2023"
+    },
+    {
+      "Name": "Econometrics Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Embedded Coder",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Filter Design HDL Coder",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Financial Instruments Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Financial Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Fixed-Point Designer",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Fuzzy Logic Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "GPU Coder",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Global Optimization Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "HDL Coder",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "HDL Verifier",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Image Acquisition Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Image Processing Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Industrial Communication Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Instrument Control Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "LTE Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Lidar Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "MATLAB",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "MATLAB Coder",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "MATLAB Compiler",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "MATLAB Compiler SDK",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "MATLAB Report Generator",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "MATLAB Test",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Mapping Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Medical Imaging Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Mixed-Signal Blockset",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Model Predictive Control Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Model-Based Calibration Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Motor Control Blockset",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Navigation Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Optimization Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Parallel Computing Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Partial Differential Equation Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Phased Array System Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Powertrain Blockset",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Predictive Maintenance Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "RF Blockset",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "RF PCB Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "RF Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "ROS Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Radar Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Reinforcement Learning Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Requirements Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Risk Management Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Robotics System Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "23-Jan-2024"
+    },
+    {
+      "Name": "Robust Control Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Satellite Communications Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Sensor Fusion and Tracking Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "SerDes Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Signal Integrity Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Signal Processing Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "SimBiology",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "SimEvents",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "22-May-2023"
+    },
+    {
+      "Name": "Simscape",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simscape Battery",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simscape Driveline",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simscape Electrical",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simscape Fluids",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simscape Multibody",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink 3D Animation",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Check",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Code Inspector",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Coder",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Compiler",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "21-Feb-2024"
+    },
+    {
+      "Name": "Simulink Control Design",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Coverage",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Design Optimization",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Design Verifier",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Desktop Real-Time",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Fault Analyzer",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink PLC Coder",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Real-Time",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Report Generator",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Simulink Test",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "SoC Blockset",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Spreadsheet Link",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Stateflow",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Statistics and Machine Learning Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Symbolic Math Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "System Composer",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "System Identification Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Text Analytics Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "UAV Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Vehicle Dynamics Blockset",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Vehicle Network Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Vision HDL Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "WLAN Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Wavelet Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Wireless HDL Toolbox",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    },
+    {
+      "Name": "Wireless Testbench",
+      "Version": "24.1",
+      "Release": "(R2024a)",
+      "Date": "19-Nov-2023"
+    }
+  ],
+  "source_sha256": {
+    "BoundarySensor_m": "a5d16af75b677fa602c7d52a8b30b2802ba28f87833a5ca2aba7c2d4e72a29e6",
+    "CrossingObstacleWorld_m": "b327e7c55b1bbd97face14cdf9183f5a7848ed011bca51a63c6a3b92fc72da9d",
+    "MovingObstacleWorld_m": "df2973773907a7e0f9ed8bf8e4598bed594f670c0fe9a134b3fa1ea94d3f906a",
+    "RandomObstacleWorld_m": "807f5cfa3f6c99f5dd906acb99275afc855abc74ed5262fe90d92767389e3f97",
+    "RefHolder_m": "80cd490c424ee0db01eec4f26f37ad237bf823833c181a4ab0c773c024621a57",
+    "benchmark_boundary_m": "1a73406caf19b84bb4588876aec7bc6366882266bb35766677a8abd3bb59b81f",
+    "benchmark_mpc_m": "a35b616b17171d1b6d6f73fb9bfbabc9b2ade8d56a5d8bf7862667abb64a3f6d",
+    "bicycle_step_m": "910c635ccaa9313e6c67d61aca68fd0efa753ca8ae225136048aad00bd1f0dd4",
+    "boundary_experiment_parameters_m": "177ccd93c39abaf9c32e76489fff80970472aad3d493ecb362ec1b3654d8a00b",
+    "braking_sequence_m": "108e2a0339f0b32b12e6c2dd09b5eca45a42bea689b93d2ef825e548d4f5e105",
+    "build_prediction_matrices_m": "f49ab8eca53199b2d61ec954829e8531f65a44ecfd1ac58dde3f897a133cdeb3",
+    "check_control_sequence_m": "80b53ee241b707531ada5d0af47064c803698e987a655586b601243cbc6d5623",
+    "check_motion_m": "d876f1bf2efd33bec99d48332e70e2470b7a8a4a4d88149f86ec387059613f29",
+    "check_moving_motion_m": "a8e84eda0592290f5b2f6cd6f645b9be829fed03d9fa6924018e5d7ba5497002",
+    "check_sensor_visibility_m": "a25840156377474c9dc7c67605e2c51db0a27a1bf72f602674c8342809a61054",
+    "corridor_clearance_m": "9be19af8a943e7391477b0c3a996b08c72a45f11ed5e4230fa1ad842b616c586",
+    "create_nonlinear_mpc_m": "d3c619c868cfe16aafd0bf372547755202b77e89db8ae7f954e808d2fd6a6146",
+    "evaluate_run_m": "b603787db71f1790afab4430280484625798be3e2a7f2638dc8478cb19baace7",
+    "generate_static_obstacles_m": "ce62b4a7a800710de0b31fc7a607b423feeb8659b86c16fe524549d61bcdcaeb",
+    "generate_track_m": "06b739e42f2aad0fc1886a8d7e15f7ae3b5780d4ea98b67efae20c3567d2b5cd",
+    "get_linearized_model_m": "58073a29179d3c67b9971a959208d81f3139856adc9fe2398590c2328dad9ab7",
+    "make_boundary_track_m": "720e4b37d60c0b901878af4eded285a25d3b08f2713d462e01cd167b8b7229d3",
+    "make_demo_obstacles_m": "57a65d6034f75fdab41eed4f19a7827e5224cb5c86e78fda2646eb47fb92edda",
+    "make_laguerre_basis_m": "f6b19d2b82a2e0da9cd2167da6c63b0e2538112959c1eb906b138b8f121e48cd",
+    "make_reference_m": "0dd7108018ace9f8ff472a187999c074feac92dce59284067cb665fd5888e18b",
+    "mpc_solve_m": "05aef06e624663c289cf624b9269a424d00cd331241127c6342501fa574f24e8",
+    "nonlinear_safety_constraints_m": "2056681ad91bfa05fc7299fc7c34e0de3ddb41c669601cc832d2968a0769803b",
+    "parameters_m": "eb3ee5089aa7e40fe13236e0084c62bd45fb5d654f3bc9408fccd6122299f2bb",
+    "path_geometry_m": "749922ce8c6804bb85f7393e548f7d1e4d87128f263dcbad9e99054ba04163f8",
+    "plan_reference_path_m": "804330ae947626534dd1e853c81b8abbab36b7e460586f27e25e3ff58afd4928",
+    "plan_sensed_path_m": "0494969bfcb9e8ffd3c58da579afebea38ebff9acf127b09393703e44dcb4466",
+    "plot_results_m": "aa736a25950b1195817bb6369fea7aab7cc2ef38946202f371fd37a33199ec1e",
+    "project_path_m": "096e606be456a658a5e61c3d8d6c66437e27e56bf57630bda66ed61c3f7ce246",
+    "random_world_parameters_m": "81872f9d534296f685c57ac63df4d2d14f11e9731b628ad1efac4fb6fb30e777",
+    "replay_mpc_run_m": "fc543718a7284c9cdd8633dbff29ad8b8b9f6b9228f311947762760e0f64b0c3",
+    "run_boundary_demo_m": "a70713e7aa360a1f54197078e56a73f575c76b17ebf1705405c72ff886e7e049",
+    "run_mpc_demo_m": "bd21a655d3165a5354eaeb3972ed8f1ae2d0ef827d09cb16a0305d8608a10a5a",
+    "save_mpc_run_m": "90203a789f900c24d07bfb1a26be2f2913f9c665159e45fb7f51202036c38b85",
+    "sense_track_lines_m": "b7773a8303326a5fe4ce6ae9bed3708f771d9d5109968f24ef2dfe2a43aa8b4e",
+    "simulate_ltv_mpc_m": "1ce644f7ab27379c6e31586a3ceafbf875c0c38fb26b7992c7c0b7da61f6865a",
+    "simulate_ltv_mpc_laguerre_m": "204eac08c3583e0bb68011005995afad2894a1f4a6061abaea9df68ec498fb1a",
+    "simulate_ltv_mpc_laguerre_tracking_m": "ff91ddb331c550cd67fdace3e3a9e368c48b387a770fa1f52f9a0e5ce746d009",
+    "simulate_ltv_mpc_obstacles_m": "c76ae946dbb5dc4c5f97bfecbca50c938425babab341f2b66a9d3d147b89aeb6",
+    "simulate_ltv_mpc_random_static_obstacles_m": "2e16d97a38e57065c78b33bda297837ec87a6711fe0894529e3f34f251623b59",
+    "simulate_mpc_m": "27d8287a2cd9e47c7b76845072637bba54af16481a55203094f5e038a8f2af57",
+    "tracking_cost_m": "570f81881b3cd90e26493c0b98b11dc213a058eb90a5308d2dfec65fae21f20d",
+    "validate_parameters_m": "9ad6080fa93442a37ef17f7ab0ef5564efd733f2ccf53d4febed18c9f190d0ba",
+    "vehicle_clearance_m": "2d6fc94d927e6e21beb4993c2e6ef9f20b3cf4c28cb1a51aeebfad2af961a4cb"
+  },
+  "initial_state": [
+    4.5,
+    0,
+    1.5707963267948966,
+    0.8
+  ],
+  "requested_duration": 40,
+  "events": [
+    {
+      "time": 2.4000000000000004,
+      "type": "yield",
+      "detail": "Changed between verified tracking and conservative yielding"
+    },
+    {
+      "time": 2.8000000000000003,
+      "type": "resume",
+      "detail": "Changed between verified tracking and conservative yielding"
+    },
+    {
+      "time": 4.2,
+      "type": "yield",
+      "detail": "Changed between verified tracking and conservative yielding"
+    },
+    {
+      "time": 10.950000000000001,
+      "type": "resume",
+      "detail": "Changed between verified tracking and conservative yielding"
+    }
+  ],
+  "spawn_policy": "independent_world_no_vehicle_or_controller_input",
+  "world": {
+    "mode": "live_moving_world",
+    "parameters": {
+      "sensor_range": 3.5,
+      "sensor_fov": 6.2831853071795862
+    },
+    "track_sensor": "local_paired_boundary_lines",
+    "motion": "two_transverse_crossers_one_static_one_temporary_static",
+    "obstacle_prediction": "isotropic_speed_bound_no_directional_forecast",
+    "obstacle_speed_bound": 0.29171931783333793,
+    "memory": "bounded_measurement_memory_with_negative_confirmation",
+    "spawn_policy": "independent_world_no_vehicle_or_controller_input",
+    "track_kind": "chicane",
+    "experiment": {
+      "seed": 41,
+      "line_noise": 0,
+      "obstacle_noise": 0,
+      "latency_steps": 0,
+      "line_loss_start": 2,
+      "line_loss_end": 2.8,
+      "miss_probability": 0,
+      "uncertain_classification": false,
+      "max_line_age": 0.4,
+      "max_obstacle_age": 0.4,
+      "absence_confirmations": 3,
+      "replan_interval": 0.15,
+      "stall_timeout": 12,
+      "minimum_progress_ratio": 0.35,
+      "plant_wheelbase_scale": 1,
+      "plant_acceleration_scale": 1,
+      "start_fraction": 0,
+      "crossing_scale": 1,
+      "crossing_direction": 1,
+      "crossing_phase": 0,
+      "radius_scale": 1,
+      "model_margin": 0,
+      "enforce_deadline": false
+    }
+  }
+}

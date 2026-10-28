@@ -1,0 +1,9 @@
+time,type,detail
+3.7,yield,Changed between verified tracking and conservative yielding
+10.8,resume,Changed between verified tracking and conservative yielding
+10.85,yield,Changed between verified tracking and conservative yielding
+11.25,resume,Changed between verified tracking and conservative yielding
+26.65,controller_rejection,flag=-2; nonlinear validation rejected=1
+26.65,yield,Changed between verified tracking and conservative yielding
+27.15,resume,Changed between verified tracking and conservative yielding
+31.85,yield,Changed between verified tracking and conservative yielding

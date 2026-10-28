@@ -1,0 +1,8 @@
+* text=auto
+# Preserve recorded source/data bytes for SHA-256 provenance.
+matlab/** -text
+results/published/** -text
+*.mp4 binary
+*.pdf binary
+*.png binary
+*.jpg binary

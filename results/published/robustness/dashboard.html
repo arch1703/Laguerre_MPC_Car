@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>MPC simulation robustness comparison</title>
+<style>
+body{font:15px system-ui,sans-serif;margin:2rem;color:#172739}
+h1,h2{color:#164d76} table{border-collapse:collapse;font-size:13px;width:100%}
+th,td{padding:.5rem;border:1px solid #ccd4dd;text-align:left;white-space:nowrap}
+thead{background:#dceaf5}.fail{background:#fff0dd}.pass{background:#eff8f1}
+.scroll{overflow:auto}svg{max-width:1100px;width:100%}pre{white-space:pre-wrap}
+</style><h1>MPC simulation robustness comparison</h1>
+<p>Profile: <b>full</b>; status:
+<b>completed</b>; 32 recorded runs.
+Failed and early-terminated runs are retained, not filtered.</p>
+<p><b>Simulation only.</b> This finite, seeded matrix is not a safety certification or
+a statistically estimated success rate. There is no trained policy: both controllers
+solve online. ROS2, external worlds, camera perception, and hardware are out of scope.</p>
+<p>Paired cases share physical world configuration, seed, fixed-index disturbance
+draws, tuning, constraints, horizons, initial state, and acceptance criteria.
+Their perceived observations can differ because their trajectories differ.
+Controller order alternates; cold warm-up is recorded separately in
+<a href="warmup.csv">warmup.csv</a>. Deadline outcomes depend on desktop load.</p>
+<h2>Outcomes and timing</h2><div class="scroll"><table><thead><tr>
+<th>Controller</th><th>Mission pass</th><th>Safety pass</th><th>Contact steps</th>
+<th>Mean of called-optimizer run medians [ms]</th><th>Online misses</th><th>Full-loop misses</th>
+</tr></thead><tbody><tr><th>laguerre</th><td>9/16</td><td>16/16</td><td>0</td><td>9.03</td><td>53/11887 (0.45%)</td><td>213/11887 (1.79%)</td></tr><tr><th>ltv</th><td>9/16</td><td>16/16</td><td>0</td><td>4.63</td><td>1/11886 (0.01%)</td><td>3/11886 (0.03%)</td></tr></tbody></table></div>
+<p>Mission pass requires completed duration, sufficient progress, no fallback and
+the safety criteria. A stopped car is not automatically a successful mission.
+Minimum progress is predeclared per case. Safety pass describes only the executed
+portion, not what would happen after early termination.</p>
+<svg role="img" aria-label="Online and full-loop p99 timings" viewBox="0 0 1020 914"><text x="245" y="12" font-size="12">Blue: online p99; grey: full-loop p99; red: 50 ms budget</text><text x="0" y="38" font-size="12">baseline_chicane / laguerre</text><rect x="245" y="28" width="277.25" height="13" fill="#bac4d2"/><rect x="245" y="28" width="240.48" height="7" fill="#246fa8"/><text x="527.25" y="39" font-size="11">48.1 / 55.5 ms</text><text x="0" y="65" font-size="12">baseline_chicane / ltv</text><rect x="245" y="55" width="208.07" height="13" fill="#bac4d2"/><rect x="245" y="55" width="167.64" height="7" fill="#246fa8"/><text x="458.07" y="66" font-size="11">33.5 / 41.6 ms</text><text x="0" y="92" font-size="12">baseline_kidney / ltv</text><rect x="245" y="82" width="171.88" height="13" fill="#bac4d2"/><rect x="245" y="82" width="139.19" height="7" fill="#246fa8"/><text x="421.88" y="93" font-size="11">27.8 / 34.4 ms</text><text x="0" y="119" font-size="12">baseline_kidney / laguerre</text><rect x="245" y="109" width="235.79" height="13" fill="#bac4d2"/><rect x="245" y="109" width="200.55" height="7" fill="#246fa8"/><text x="485.79" y="120" font-size="11">40.1 / 47.2 ms</text><text x="0" y="146" font-size="12">noisy_lines / laguerre</text><rect x="245" y="136" width="258.74" height="13" fill="#bac4d2"/><rect x="245" y="136" width="221.18" height="7" fill="#246fa8"/><text x="508.74" y="147" font-size="11">44.2 / 51.7 ms</text><text x="0" y="173" font-size="12">noisy_lines / ltv</text><rect x="245" y="163" width="201.73" height="13" fill="#bac4d2"/><rect x="245" y="163" width="156.19" height="7" fill="#246fa8"/><text x="451.73" y="174" font-size="11">31.2 / 40.3 ms</text><text x="0" y="200" font-size="12">sensor_latency / ltv</text><rect x="245" y="190" width="179.61" height="13" fill="#bac4d2"/><rect x="245" y="190" width="145.10" height="7" fill="#246fa8"/><text x="429.61" y="201" font-size="11">29.0 / 35.9 ms</text><text x="0" y="227" font-size="12">sensor_latency / laguerre</text><rect x="245" y="217" width="278.28" height="13" fill="#bac4d2"/><rect x="245" y="217" width="242.27" height="7" fill="#246fa8"/><text x="528.28" y="228" font-size="11">48.5 / 55.7 ms</text><text x="0" y="254" font-size="12">baseline_oval / laguerre</text><rect x="245" y="244" width="294.74" height="13" fill="#bac4d2"/><rect x="245" y="244" width="239.13" height="7" fill="#246fa8"/><text x="544.74" y="255" font-size="11">47.8 / 58.9 ms</text><text x="0" y="281" font-size="12">baseline_oval / ltv</text><rect x="245" y="271" width="169.43" height="13" fill="#bac4d2"/><rect x="245" y="271" width="138.58" height="7" fill="#246fa8"/><text x="419.43" y="282" font-size="11">27.7 / 33.9 ms</text><text x="0" y="308" font-size="12">brief_marking_loss / ltv</text><rect x="245" y="298" width="186.56" height="13" fill="#bac4d2"/><rect x="245" y="298" width="146.32" height="7" fill="#246fa8"/><text x="436.56" y="309" font-size="11">29.3 / 37.3 ms</text><text x="0" y="335" font-size="12">brief_marking_loss / laguerre</text><rect x="245" y="325" width="264.84" height="13" fill="#bac4d2"/><rect x="245" y="325" width="228.12" height="7" fill="#246fa8"/><text x="514.84" y="336" font-size="11">45.6 / 53.0 ms</text><text x="0" y="362" font-size="12">long_marking_loss / laguerre</text><rect x="245" y="352" width="198.32" height="13" fill="#bac4d2"/><rect x="245" y="352" width="165.16" height="7" fill="#246fa8"/><text x="448.32" y="363" font-size="11">33.0 / 39.7 ms</text><text x="0" y="389" font-size="12">long_marking_loss / ltv</text><rect x="245" y="379" width="148.15" height="13" fill="#bac4d2"/><rect x="245" y="379" width="110.61" height="7" fill="#246fa8"/><text x="398.15" y="390" font-size="11">22.1 / 29.6 ms</text><text x="0" y="416" font-size="12">missed_objects / ltv</text><rect x="245" y="406" width="180.29" height="13" fill="#bac4d2"/><rect x="245" y="406" width="149.29" height="7" fill="#246fa8"/><text x="430.29" y="417" font-size="11">29.9 / 36.1 ms</text><text x="0" y="443" font-size="12">missed_objects / laguerre</text><rect x="245" y="433" width="276.04" height="13" fill="#bac4d2"/><rect x="245" y="433" width="247.64" height="7" fill="#246fa8"/><text x="526.04" y="444" font-size="11">49.5 / 55.2 ms</text><text x="0" y="470" font-size="12">uncertain_classes / laguerre</text><rect x="245" y="460" width="212.53" height="13" fill="#bac4d2"/><rect x="245" y="460" width="169.31" height="7" fill="#246fa8"/><text x="462.53" y="471" font-size="11">33.9 / 42.5 ms</text><text x="0" y="497" font-size="12">uncertain_classes / ltv</text><rect x="245" y="487" width="158.73" height="13" fill="#bac4d2"/><rect x="245" y="487" width="121.35" height="7" fill="#246fa8"/><text x="408.73" y="498" font-size="11">24.3 / 31.7 ms</text><text x="0" y="524" font-size="12">plant_mismatch / ltv</text><rect x="245" y="514" width="185.31" height="13" fill="#bac4d2"/><rect x="245" y="514" width="148.01" height="7" fill="#246fa8"/><text x="435.31" y="525" font-size="11">29.6 / 37.1 ms</text><text x="0" y="551" font-size="12">plant_mismatch / laguerre</text><rect x="245" y="541" width="238.83" height="13" fill="#bac4d2"/><rect x="245" y="541" width="205.00" height="7" fill="#246fa8"/><text x="488.83" y="552" font-size="11">41.0 / 47.8 ms</text><text x="0" y="578" font-size="12">fast_crossers / laguerre</text><rect x="245" y="568" width="263.65" height="13" fill="#bac4d2"/><rect x="245" y="568" width="226.82" height="7" fill="#246fa8"/><text x="513.65" y="579" font-size="11">45.4 / 52.7 ms</text><text x="0" y="605" font-size="12">fast_crossers / ltv</text><rect x="245" y="595" width="167.19" height="13" fill="#bac4d2"/><rect x="245" y="595" width="129.12" height="7" fill="#246fa8"/><text x="417.19" y="606" font-size="11">25.8 / 33.4 ms</text><text x="0" y="632" font-size="12">reversed_crossers / ltv</text><rect x="245" y="622" width="186.69" height="13" fill="#bac4d2"/><rect x="245" y="622" width="144.08" height="7" fill="#246fa8"/><text x="436.69" y="633" font-size="11">28.8 / 37.3 ms</text><text x="0" y="659" font-size="12">reversed_crossers / laguerre</text><rect x="245" y="649" width="241.99" height="13" fill="#bac4d2"/><rect x="245" y="649" width="204.29" height="7" fill="#246fa8"/><text x="491.99" y="660" font-size="11">40.9 / 48.4 ms</text><text x="0" y="686" font-size="12">different_start / laguerre</text><rect x="245" y="676" width="256.51" height="13" fill="#bac4d2"/><rect x="245" y="676" width="219.66" height="7" fill="#246fa8"/><text x="506.51" y="687" font-size="11">43.9 / 51.3 ms</text><text x="0" y="713" font-size="12">different_start / ltv</text><rect x="245" y="703" width="188.66" height="13" fill="#bac4d2"/><rect x="245" y="703" width="149.05" height="7" fill="#246fa8"/><text x="438.66" y="714" font-size="11">29.8 / 37.7 ms</text><text x="0" y="740" font-size="12">larger_objects / ltv</text><rect x="245" y="730" width="168.72" height="13" fill="#bac4d2"/><rect x="245" y="730" width="132.91" height="7" fill="#246fa8"/><text x="418.72" y="741" font-size="11">26.6 / 33.7 ms</text><text x="0" y="767" font-size="12">larger_objects / laguerre</text><rect x="245" y="757" width="265.52" height="13" fill="#bac4d2"/><rect x="245" y="757" width="234.00" height="7" fill="#246fa8"/><text x="515.52" y="768" font-size="11">46.8 / 53.1 ms</text><text x="0" y="794" font-size="12">combined_uncertainty / laguerre</text><rect x="245" y="784" width="295.20" height="13" fill="#bac4d2"/><rect x="245" y="784" width="262.04" height="7" fill="#246fa8"/><text x="545.20" y="795" font-size="11">52.4 / 59.0 ms</text><text x="0" y="821" font-size="12">combined_uncertainty / ltv</text><rect x="245" y="811" width="182.31" height="13" fill="#bac4d2"/><rect x="245" y="811" width="148.30" height="7" fill="#246fa8"/><text x="432.31" y="822" font-size="11">29.7 / 36.5 ms</text><text x="0" y="848" font-size="12">deadline_watchdog / ltv</text><rect x="245" y="838" width="163.25" height="13" fill="#bac4d2"/><rect x="245" y="838" width="132.71" height="7" fill="#246fa8"/><text x="413.25" y="849" font-size="11">26.5 / 32.6 ms</text><text x="0" y="875" font-size="12">deadline_watchdog / laguerre</text><rect x="245" y="865" width="228.49" height="13" fill="#bac4d2"/><rect x="245" y="865" width="196.97" height="7" fill="#246fa8"/><text x="478.49" y="876" font-size="11">39.4 / 45.7 ms</text><path d="M 495.00 18 V 914" stroke="#c22" stroke-dasharray="4 3"/></svg>
+<p>Online time includes sensing, planning, solve and validation; full-loop time also
+includes the separate physical truth monitor and simulator bookkeeping.
+Per-stage percentiles are not additive. The watchdog checks elapsed work before
+applying a control but cannot undo delay or guarantee its braking computation
+meets 50 ms. QP iteration caps are not wall-clock guarantees.</p>
+<p>Optimizer medians are recomputed from saved ticks with
+<code>solver_called=true</code>; waiting ticks are excluded. The original summary's
+solve-stage median/p99 includes every tick and is retained separately below.
+Never-called optimizers are marked as such, not assigned a zero solve cost.</p>
+<h2>Every run</h2><div class="scroll"><table><thead><tr>
+<th>Case</th><th>Track</th><th>Controller</th><th>Mission</th><th>Safety</th>
+<th>Termination</th><th>Actual/requested [s]</th><th>Laps/required</th>
+<th>Path RMS [cm]</th><th>Obstacle gap [cm]</th><th>Road gap [cm]</th>
+<th>Contact/departure steps</th><th>Fallback/solver failure</th><th>Longest stop [s]</th>
+<th>Variables</th><th>Called optimizer median [ms]</th><th>All-tick solve stage median/p99 [ms]</th>
+<th>Sensor/plan/validation/monitor p99 [ms]</th><th>Replans/ticks</th>
+<th>Watchdog interventions</th><th>Saved run</th>
+</tr></thead><tbody><tr class="pass"><th>baseline_chicane</th><td>chicane</td><td>laguerre</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.03 / 0.44</td><td>2.49</td><td>11.87</td><td>34.55</td><td>0 / 0</td><td>0 / 0</td><td>7.20</td><td>8</td><td>8.78 (650 calls)</td><td>8.55 / 25.00</td><td>7.27 / 3.33 / 18.11 / 10.33</td><td>269/800</td><td>0</td><td><a href="runs/baseline_chicane_laguerre/manifest.json">Manifest</a></td></tr><tr class="pass"><th>baseline_chicane</th><td>chicane</td><td>ltv</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.03 / 0.44</td><td>2.47</td><td>11.87</td><td>34.55</td><td>0 / 0</td><td>0 / 0</td><td>7.20</td><td>12</td><td>4.93 (650 calls)</td><td>4.63 / 11.58</td><td>8.23 / 2.81 / 16.48 / 10.11</td><td>269/800</td><td>0</td><td><a href="runs/baseline_chicane_ltv/manifest.json">Manifest</a></td></tr><tr class="pass"><th>baseline_kidney</th><td>kidney</td><td>ltv</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.13 / 0.50</td><td>2.70</td><td>11.88</td><td>34.54</td><td>0 / 0</td><td>0 / 0</td><td>7.50</td><td>12</td><td>4.53 (632 calls)</td><td>4.41 / 9.00</td><td>5.72 / 2.49 / 14.13 / 8.57</td><td>270/800</td><td>0</td><td><a href="runs/baseline_kidney_ltv/manifest.json">Manifest</a></td></tr><tr class="pass"><th>baseline_kidney</th><td>kidney</td><td>laguerre</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.13 / 0.50</td><td>2.71</td><td>11.88</td><td>34.54</td><td>0 / 0</td><td>0 / 0</td><td>7.50</td><td>8</td><td>8.39 (632 calls)</td><td>8.21 / 21.75</td><td>5.89 / 2.62 / 15.14 / 7.98</td><td>270/800</td><td>0</td><td><a href="runs/baseline_kidney_laguerre/manifest.json">Manifest</a></td></tr><tr class="pass"><th>noisy_lines</th><td>chicane</td><td>laguerre</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.02 / 0.44</td><td>3.92</td><td>15.11</td><td>31.25</td><td>0 / 0</td><td>0 / 0</td><td>7.40</td><td>8</td><td>9.69 (647 calls)</td><td>9.01 / 23.84</td><td>5.70 / 2.65 / 15.38 / 8.43</td><td>279/800</td><td>0</td><td><a href="runs/noisy_lines_laguerre/manifest.json">Manifest</a></td></tr><tr class="pass"><th>noisy_lines</th><td>chicane</td><td>ltv</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.02 / 0.44</td><td>3.90</td><td>15.10</td><td>31.26</td><td>0 / 0</td><td>0 / 0</td><td>7.40</td><td>12</td><td>5.24 (647 calls)</td><td>4.82 / 10.11</td><td>5.83 / 2.67 / 15.51 / 9.93</td><td>279/800</td><td>0</td><td><a href="runs/noisy_lines_ltv/manifest.json">Manifest</a></td></tr><tr class="fail"><th>sensor_latency</th><td>kidney</td><td>ltv</td><td>FAIL</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>0.64 / 0.50</td><td>24.90</td><td>12.02</td><td>34.55</td><td>0 / 0</td><td>77 / 77</td><td>6.50</td><td>12</td><td>4.45 (642 calls)</td><td>4.35 / 10.76</td><td>5.63 / 2.59 / 13.09 / 8.31</td><td>269/800</td><td>0</td><td><a href="runs/sensor_latency_ltv/manifest.json">Manifest</a></td></tr><tr class="fail"><th>sensor_latency</th><td>kidney</td><td>laguerre</td><td>FAIL</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>0.64 / 0.50</td><td>24.89</td><td>12.03</td><td>34.55</td><td>0 / 0</td><td>77 / 77</td><td>6.50</td><td>8</td><td>8.85 (642 calls)</td><td>8.50 / 28.58</td><td>6.25 / 2.76 / 15.85 / 8.25</td><td>269/800</td><td>0</td><td><a href="runs/sensor_latency_laguerre/manifest.json">Manifest</a></td></tr><tr class="pass"><th>baseline_oval</th><td>oval</td><td>laguerre</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.14 / 0.52</td><td>3.28</td><td>11.71</td><td>34.73</td><td>0 / 0</td><td>0 / 0</td><td>7.55</td><td>8</td><td>8.78 (606 calls)</td><td>8.40 / 25.23</td><td>7.02 / 2.95 / 18.13 / 10.40</td><td>270/800</td><td>0</td><td><a href="runs/baseline_oval_laguerre/manifest.json">Manifest</a></td></tr><tr class="pass"><th>baseline_oval</th><td>oval</td><td>ltv</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.14 / 0.52</td><td>3.36</td><td>11.72</td><td>34.72</td><td>0 / 0</td><td>0 / 0</td><td>7.55</td><td>12</td><td>4.56 (606 calls)</td><td>4.38 / 9.73</td><td>5.37 / 2.46 / 13.10 / 7.80</td><td>268/800</td><td>0</td><td><a href="runs/baseline_oval_ltv/manifest.json">Manifest</a></td></tr><tr class="pass"><th>brief_marking_loss</th><td>chicane</td><td>ltv</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.03 / 0.44</td><td>2.46</td><td>11.87</td><td>34.55</td><td>0 / 0</td><td>0 / 0</td><td>6.45</td><td>12</td><td>4.52 (657 calls)</td><td>4.37 / 10.48</td><td>5.89 / 2.80 / 14.22 / 8.24</td><td>269/800</td><td>0</td><td><a href="runs/brief_marking_loss_ltv/manifest.json">Manifest</a></td></tr><tr class="pass"><th>brief_marking_loss</th><td>chicane</td><td>laguerre</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.03 / 0.44</td><td>2.49</td><td>11.87</td><td>34.55</td><td>0 / 0</td><td>0 / 0</td><td>6.45</td><td>8</td><td>8.57 (657 calls)</td><td>8.37 / 27.25</td><td>6.40 / 2.52 / 14.05 / 7.91</td><td>269/800</td><td>0</td><td><a href="runs/brief_marking_loss_laguerre/manifest.json">Manifest</a></td></tr><tr class="fail"><th>long_marking_loss</th><td>kidney</td><td>laguerre</td><td>FAIL</td><td>PASS</td><td>stalled</td><td>14.50 / 40.00</td><td>0.08 / 0.50</td><td>0.13</td><td>176.53</td><td>64.98</td><td>0 / 0</td><td>0 / 0</td><td>12.00</td><td>8</td><td>7.80 (48 calls)</td><td>0.00 / 14.39</td><td>4.75 / 2.39 / 12.31 / 8.01</td><td>97/290</td><td>0</td><td><a href="runs/long_marking_loss_laguerre/manifest.json">Manifest</a></td></tr><tr class="fail"><th>long_marking_loss</th><td>kidney</td><td>ltv</td><td>FAIL</td><td>PASS</td><td>stalled</td><td>14.50 / 40.00</td><td>0.08 / 0.50</td><td>0.13</td><td>176.77</td><td>64.98</td><td>0 / 0</td><td>0 / 0</td><td>12.00</td><td>12</td><td>4.55 (48 calls)</td><td>0.00 / 6.58</td><td>4.45 / 2.34 / 11.55 / 7.45</td><td>97/290</td><td>0</td><td><a href="runs/long_marking_loss_ltv/manifest.json">Manifest</a></td></tr><tr class="fail"><th>missed_objects</th><td>chicane</td><td>ltv</td><td>FAIL</td><td>PASS</td><td>no_verified_control</td><td>35.00 / 40.00</td><td>0.66 / 0.44</td><td>5.84</td><td>13.39</td><td>12.99</td><td>0 / 0</td><td>0 / 0</td><td>7.25</td><td>12</td><td>4.69 (417 calls)</td><td>4.22 / 12.11</td><td>5.21 / 2.36 / 12.47 / 6.99</td><td>243/701</td><td>0</td><td><a href="runs/missed_objects_ltv/manifest.json">Manifest</a></td></tr><tr class="fail"><th>missed_objects</th><td>chicane</td><td>laguerre</td><td>FAIL</td><td>PASS</td><td>no_verified_control</td><td>35.00 / 40.00</td><td>0.66 / 0.44</td><td>5.87</td><td>13.39</td><td>12.99</td><td>0 / 0</td><td>0 / 0</td><td>7.25</td><td>8</td><td>9.49 (417 calls)</td><td>8.01 / 31.88</td><td>5.72 / 2.54 / 13.99 / 7.34</td><td>243/701</td><td>0</td><td><a href="runs/missed_objects_laguerre/manifest.json">Manifest</a></td></tr><tr class="fail"><th>uncertain_classes</th><td>chicane</td><td>laguerre</td><td>FAIL</td><td>PASS</td><td>stalled</td><td>32.80 / 40.00</td><td>0.42 / 0.44</td><td>0.19</td><td>97.27</td><td>65.09</td><td>0 / 0</td><td>0 / 0</td><td>12.00</td><td>8</td><td>8.39 (259 calls)</td><td>0.00 / 13.42</td><td>5.34 / 2.55 / 14.32 / 8.18</td><td>220/656</td><td>0</td><td><a href="runs/uncertain_classes_laguerre/manifest.json">Manifest</a></td></tr><tr class="fail"><th>uncertain_classes</th><td>chicane</td><td>ltv</td><td>FAIL</td><td>PASS</td><td>stalled</td><td>32.80 / 40.00</td><td>0.42 / 0.44</td><td>0.19</td><td>97.24</td><td>65.03</td><td>0 / 0</td><td>0 / 0</td><td>12.00</td><td>12</td><td>4.36 (259 calls)</td><td>0.00 / 7.35</td><td>4.86 / 2.26 / 12.20 / 7.84</td><td>220/656</td><td>0</td><td><a href="runs/uncertain_classes_ltv/manifest.json">Manifest</a></td></tr><tr class="pass"><th>plant_mismatch</th><td>kidney</td><td>ltv</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.13 / 0.50</td><td>3.13</td><td>14.02</td><td>32.39</td><td>0 / 0</td><td>0 / 0</td><td>7.30</td><td>12</td><td>4.75 (633 calls)</td><td>4.42 / 9.16</td><td>5.75 / 2.56 / 14.21 / 8.66</td><td>269/800</td><td>0</td><td><a href="runs/plant_mismatch_ltv/manifest.json">Manifest</a></td></tr><tr class="pass"><th>plant_mismatch</th><td>kidney</td><td>laguerre</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.13 / 0.50</td><td>3.14</td><td>14.02</td><td>32.39</td><td>0 / 0</td><td>0 / 0</td><td>7.30</td><td>8</td><td>9.15 (633 calls)</td><td>8.62 / 22.88</td><td>5.64 / 2.45 / 13.72 / 8.13</td><td>269/800</td><td>0</td><td><a href="runs/plant_mismatch_laguerre/manifest.json">Manifest</a></td></tr><tr class="fail"><th>fast_crossers</th><td>chicane</td><td>laguerre</td><td>FAIL</td><td>PASS</td><td>stalled</td><td>32.30 / 40.00</td><td>0.47 / 0.44</td><td>11.75</td><td>13.47</td><td>34.65</td><td>0 / 0</td><td>237 / 237</td><td>12.00</td><td>8</td><td>10.70 (529 calls)</td><td>8.49 / 28.06</td><td>5.60 / 2.52 / 14.63 / 8.67</td><td>232/646</td><td>0</td><td><a href="runs/fast_crossers_laguerre/manifest.json">Manifest</a></td></tr><tr class="fail"><th>fast_crossers</th><td>chicane</td><td>ltv</td><td>FAIL</td><td>PASS</td><td>stalled</td><td>32.30 / 40.00</td><td>0.47 / 0.44</td><td>11.82</td><td>13.32</td><td>34.60</td><td>0 / 0</td><td>237 / 237</td><td>12.00</td><td>12</td><td>4.12 (529 calls)</td><td>1.90 / 7.68</td><td>5.25 / 2.41 / 13.12 / 7.62</td><td>232/646</td><td>0</td><td><a href="runs/fast_crossers_ltv/manifest.json">Manifest</a></td></tr><tr class="pass"><th>reversed_crossers</th><td>kidney</td><td>ltv</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.43 / 0.50</td><td>5.06</td><td>10.48</td><td>15.77</td><td>0 / 0</td><td>0 / 0</td><td>0.00</td><td>12</td><td>4.56 (800 calls)</td><td>4.56 / 10.28</td><td>6.18 / 2.93 / 14.06 / 8.92</td><td>272/800</td><td>0</td><td><a href="runs/reversed_crossers_ltv/manifest.json">Manifest</a></td></tr><tr class="pass"><th>reversed_crossers</th><td>kidney</td><td>laguerre</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.43 / 0.50</td><td>5.07</td><td>10.49</td><td>15.77</td><td>0 / 0</td><td>0 / 0</td><td>0.00</td><td>8</td><td>8.51 (800 calls)</td><td>8.51 / 22.76</td><td>5.77 / 2.44 / 13.29 / 8.10</td><td>272/800</td><td>0</td><td><a href="runs/reversed_crossers_laguerre/manifest.json">Manifest</a></td></tr><tr class="pass"><th>different_start</th><td>oval</td><td>laguerre</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.51 / 0.52</td><td>6.18</td><td>10.30</td><td>15.97</td><td>0 / 0</td><td>0 / 0</td><td>0.00</td><td>8</td><td>8.61 (800 calls)</td><td>8.61 / 25.46</td><td>5.96 / 2.58 / 14.48 / 7.91</td><td>271/800</td><td>0</td><td><a href="runs/different_start_laguerre/manifest.json">Manifest</a></td></tr><tr class="pass"><th>different_start</th><td>oval</td><td>ltv</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.51 / 0.52</td><td>6.17</td><td>10.30</td><td>15.97</td><td>0 / 0</td><td>0 / 0</td><td>0.00</td><td>12</td><td>4.62 (800 calls)</td><td>4.62 / 11.12</td><td>6.06 / 2.56 / 14.11 / 8.29</td><td>271/800</td><td>0</td><td><a href="runs/different_start_ltv/manifest.json">Manifest</a></td></tr><tr class="fail"><th>larger_objects</th><td>chicane</td><td>ltv</td><td>FAIL</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.00 / 0.44</td><td>6.40</td><td>11.91</td><td>30.51</td><td>0 / 0</td><td>1 / 1</td><td>7.45</td><td>12</td><td>4.41 (635 calls)</td><td>4.29 / 9.68</td><td>5.49 / 2.31 / 13.44 / 7.99</td><td>269/800</td><td>0</td><td><a href="runs/larger_objects_ltv/manifest.json">Manifest</a></td></tr><tr class="fail"><th>larger_objects</th><td>chicane</td><td>laguerre</td><td>FAIL</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.00 / 0.44</td><td>6.43</td><td>11.91</td><td>30.51</td><td>0 / 0</td><td>1 / 1</td><td>7.45</td><td>8</td><td>8.51 (635 calls)</td><td>8.33 / 26.06</td><td>5.61 / 2.43 / 12.99 / 7.23</td><td>269/800</td><td>0</td><td><a href="runs/larger_objects_laguerre/manifest.json">Manifest</a></td></tr><tr class="fail"><th>combined_uncertainty</th><td>kidney</td><td>laguerre</td><td>FAIL</td><td>PASS</td><td>no_verified_control</td><td>39.65 / 40.00</td><td>0.63 / 0.50</td><td>7.85</td><td>15.49</td><td>11.02</td><td>0 / 0</td><td>1 / 1</td><td>7.55</td><td>8</td><td>11.87 (478 calls)</td><td>9.37 / 34.15</td><td>6.34 / 2.80 / 15.58 / 10.14</td><td>270/794</td><td>0</td><td><a href="runs/combined_uncertainty_laguerre/manifest.json">Manifest</a></td></tr><tr class="fail"><th>combined_uncertainty</th><td>kidney</td><td>ltv</td><td>FAIL</td><td>PASS</td><td>no_verified_control</td><td>39.60 / 40.00</td><td>0.63 / 0.50</td><td>5.43</td><td>15.49</td><td>11.01</td><td>0 / 0</td><td>0 / 0</td><td>7.90</td><td>12</td><td>5.25 (479 calls)</td><td>4.45 / 11.31</td><td>5.19 / 2.35 / 12.25 / 7.57</td><td>269/793</td><td>0</td><td><a href="runs/combined_uncertainty_ltv/manifest.json">Manifest</a></td></tr><tr class="pass"><th>deadline_watchdog</th><td>chicane</td><td>ltv</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.03 / 0.44</td><td>2.47</td><td>11.87</td><td>34.55</td><td>0 / 0</td><td>0 / 0</td><td>7.20</td><td>12</td><td>4.45 (650 calls)</td><td>4.37 / 9.11</td><td>5.22 / 2.24 / 12.12 / 7.81</td><td>269/800</td><td>0</td><td><a href="runs/deadline_watchdog_ltv/manifest.json">Manifest</a></td></tr><tr class="pass"><th>deadline_watchdog</th><td>chicane</td><td>laguerre</td><td>PASS</td><td>PASS</td><td>completed</td><td>40.00 / 40.00</td><td>1.03 / 0.44</td><td>2.49</td><td>11.87</td><td>34.55</td><td>0 / 0</td><td>0 / 0</td><td>7.20</td><td>8</td><td>8.35 (650 calls)</td><td>8.21 / 23.05</td><td>5.65 / 2.38 / 13.12 / 7.79</td><td>269/800</td><td>0</td><td><a href="runs/deadline_watchdog_laguerre/manifest.json">Manifest</a></td></tr></tbody></table></div>
+<p><a href="summary.csv">Full summary CSV</a> |
+<a href="comparison.csv">Paired comparison CSV</a> |
+<a href="cases.json">Predeclared cases</a></p>
+<h2>Interpretation limits</h2>
+<p>Ideal paired-line association, known pose, bounded noise, circular obstacle
+footprints, and a stated maximum movable-object speed are assumptions.
+No directional obstacle forecast is used. Complete, miss-free range observations
+can exclude unseen objects only while a checked future stopping tube remains
+inside the shrinking observed region. This is not a guarantee against arbitrary
+new objects spawning inside that region. With missed detections, negative
+confirmations are probabilistic; repeated misses can clear a real object.
+Conservative stale data or unknown classifications may cause a failed/stalled
+mission. Plant mismatch cases test limited wheelbase/acceleration errors with
+margins, not robust stability for arbitrary model error.</p>
+<p>Compare progress and failures alongside speed. Fewer decision variables do not
+establish a runtime advantage; this matrix uses one basis/tuning and one seed,
+not universal superiority or multi-seed statistical evidence.</p>
+<details><summary>Exact experiment definitions</summary><pre>[
+  {
+    &quot;name&quot;: &quot;baseline_chicane&quot;,
+    &quot;track&quot;: &quot;chicane&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;baseline_kidney&quot;,
+    &quot;track&quot;: &quot;kidney&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;noisy_lines&quot;,
+    &quot;track&quot;: &quot;chicane&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0.02,
+      &quot;obstacle_noise&quot;: 0.02,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;sensor_latency&quot;,
+    &quot;track&quot;: &quot;kidney&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 3,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;baseline_oval&quot;,
+    &quot;track&quot;: &quot;oval&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;brief_marking_loss&quot;,
+    &quot;track&quot;: &quot;chicane&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: 2,
+      &quot;line_loss_end&quot;: 2.8,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;long_marking_loss&quot;,
+    &quot;track&quot;: &quot;kidney&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: 2,
+      &quot;line_loss_end&quot;: 20,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;missed_objects&quot;,
+    &quot;track&quot;: &quot;chicane&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0.01,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0.2,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;uncertain_classes&quot;,
+    &quot;track&quot;: &quot;chicane&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: true,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;plant_mismatch&quot;,
+    &quot;track&quot;: &quot;kidney&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1.15,
+      &quot;plant_acceleration_scale&quot;: 0.9,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0.02,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;fast_crossers&quot;,
+    &quot;track&quot;: &quot;chicane&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1.5,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;reversed_crossers&quot;,
+    &quot;track&quot;: &quot;kidney&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: -1,
+      &quot;crossing_phase&quot;: 0.7,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;different_start&quot;,
+    &quot;track&quot;: &quot;oval&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0.08,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;larger_objects&quot;,
+    &quot;track&quot;: &quot;chicane&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1.4,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;combined_uncertainty&quot;,
+    &quot;track&quot;: &quot;kidney&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0.01,
+      &quot;obstacle_noise&quot;: 0.01,
+      &quot;latency_steps&quot;: 2,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0.1,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1.1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0.02,
+      &quot;enforce_deadline&quot;: false
+    }
+  },
+  {
+    &quot;name&quot;: &quot;deadline_watchdog&quot;,
+    &quot;track&quot;: &quot;chicane&quot;,
+    &quot;duration&quot;: 40,
+    &quot;experiment&quot;: {
+      &quot;seed&quot;: 41,
+      &quot;line_noise&quot;: 0,
+      &quot;obstacle_noise&quot;: 0,
+      &quot;latency_steps&quot;: 0,
+      &quot;line_loss_start&quot;: null,
+      &quot;line_loss_end&quot;: null,
+      &quot;miss_probability&quot;: 0,
+      &quot;uncertain_classification&quot;: false,
+      &quot;max_line_age&quot;: 0.4,
+      &quot;max_obstacle_age&quot;: 0.4,
+      &quot;absence_confirmations&quot;: 3,
+      &quot;replan_interval&quot;: 0.15,
+      &quot;stall_timeout&quot;: 12,
+      &quot;minimum_progress_ratio&quot;: 0.35,
+      &quot;plant_wheelbase_scale&quot;: 1,
+      &quot;plant_acceleration_scale&quot;: 1,
+      &quot;start_fraction&quot;: 0,
+      &quot;crossing_scale&quot;: 1,
+      &quot;crossing_direction&quot;: 1,
+      &quot;crossing_phase&quot;: 0,
+      &quot;radius_scale&quot;: 1,
+      &quot;model_margin&quot;: 0,
+      &quot;enforce_deadline&quot;: true
+    }
+  }
+]</pre></details>
+</html>

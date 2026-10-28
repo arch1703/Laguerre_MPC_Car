@@ -1,0 +1,5 @@
+time,type,detail
+3.1,yield,Changed between verified tracking and conservative yielding
+10.95,resume,Changed between verified tracking and conservative yielding
+38.6,yield,Changed between verified tracking and conservative yielding
+39.15,resume,Changed between verified tracking and conservative yielding
